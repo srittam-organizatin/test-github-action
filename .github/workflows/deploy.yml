@@ -50,16 +50,24 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
-  speedcurv-alert:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Post request to speedcurv
+      - name: Expose git commit data
+        uses: rlespinasse/git-commit-data-action@v1
+
+      - name: Print git commit data
       run: |
-        curl --request POST \
-            --url https://api.speedcurve.com/v1/deploys \
-            --header 'accept: application/json' \
-            --header 'authorization: Basic MW9uYzlzbTFlanJ3bzl4aHE0ODV2OTJjd2c0b2FuOng=' \
-            --header 'cache-control: no-cache' \
-            --header 'content-type: application/json' \
-            --data '{"site_id" : "745662","url_id": "3916716","note" : "github test","detail" : "Testing 10 details"}'
+          echo " - ${{ env.GIT_COMMIT_SHA }}"
+          echo " - ${{ env.GIT_COMMIT_SHORT_SHA }}"
+
+  # speedcurv-alert:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Post request to speedcurv
+  #     run: |
+  #       curl --request POST \
+  #           --url https://api.speedcurve.com/v1/deploys \
+  #           --header 'accept: application/json' \
+  #           --header 'authorization: Basic MW9uYzlzbTFlanJ3bzl4aHE0ODV2OTJjd2c0b2FuOng=' \
+  #           --header 'cache-control: no-cache' \
+  #           --header 'content-type: application/json' \
+  #           --data '{"site_id" : "745662","url_id": "3916716","note" : "github test","detail" : "Testing 10 details"}'
 
