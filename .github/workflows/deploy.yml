@@ -54,9 +54,9 @@ jobs:
         uses: rlespinasse/git-commit-data-action@v1
 
       - name: Print git commit data
-      run: |
-          echo " - ${{ env.GIT_COMMIT_SHA }}"
-          echo " - ${{ env.GIT_COMMIT_SHORT_SHA }}"
+        run: |
+            echo " - ${{ env.GIT_COMMIT_SHA }}"
+            echo " - ${{ env.GIT_COMMIT_SHORT_SHA }}"
 
   # speedcurv-alert:
   #   runs-on: ubuntu-latest
