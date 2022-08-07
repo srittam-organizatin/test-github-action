@@ -51,6 +51,7 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
   speedcurv-alert:
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
     - name: Get git commit data
@@ -64,5 +65,5 @@ jobs:
             --header 'authorization: Basic MW9uYzlzbTFlanJ3bzl4aHE0ODV2OTJjd2c0b2FuOng=' \
             --header 'cache-control: no-cache' \
             --header 'content-type: application/json' \
-            --data '{"site_id" : "745662","url_id": "3916716","note" : "id : ${{ env.GIT_COMMIT_SHORT_SHA }}","detail" : "Testing 10 details"}'
+            --data '{"site_id" : "745662","url_id": "3916716","note" : "- ${{ env.GIT_COMMIT_SHORT_SHA }}","detail" : "Testing 10 details"}'
 
