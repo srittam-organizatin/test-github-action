@@ -51,7 +51,7 @@ jobs:
   #         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
   speedcurv-alert:
-    needs: deploy
+    # needs: deploy
     runs-on: ubuntu-latest
     steps:
     - name: Get git commit data
