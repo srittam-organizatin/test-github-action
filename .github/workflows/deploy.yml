@@ -2,7 +2,7 @@ name: deploy website
 on: [push, pull_request]
 jobs:
 
-  Speedcurv Deployment:
+  speedcurv:
     runs-on: ubuntu-latest
     steps:
     - name: Post request to speedcurv
