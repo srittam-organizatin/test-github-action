@@ -59,11 +59,18 @@ jobs:
           echo " - ${{ env.GIT_COMMIT_SHA }}"
           echo " - ${{ env.GIT_COMMIT_SHORT_SHA }}"
 
-  # speedcurv-alert:
-    # needs: deploy
-    # if: github.ref == 'refs/heads/main'
-    # runs-on: ubuntu-latest
-    # steps:
+  speedcurv-alert:
+    needs: deploy
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions: 
+      deployments: write
+    steps:
+      - name: Print git commit data
+        run: |
+          echo "Get commit info"
+          echo " - ${{ env.GIT_COMMIT_SHA }}"
+          echo " - ${{ env.GIT_COMMIT_SHORT_SHA }}"
       # - name: Get git commit data
       #   uses: rlespinasse/git-commit-data-action@v1
       # - name: Print git commit data
