@@ -55,32 +55,23 @@ jobs:
     # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-    - name: Get git commit data
-      uses: rlespinasse/git-commit-data-action@v1
-    
-    - name: read workspace id
-      run: echo ${{ env.GIT_COMMIT_SHORT_SHA }}
-
-    - name: Post request to speedcurv
-      run: |
-        CODE = `curl --request POST \
-            --url https://api.speedcurve.com/v1/deploys \
-            --header 'accept: application/json' \
-            --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
-            --header 'cache-control: no-cache' \
-            --header 'content-type: application/json' \
-            --data '{
-              "site_id" : "736533",
-              "url_id": "3887894",
-              "note" : "pr no ${{ github.event.inputs.pr_num }}",
-              "detail" : "Testing 10 details"}'`
-
-      if [ $CODE!="200" ] 
-      then
-            echo "FAILURE"
-      else
-            echo "SUCCESS"
-      fi
-
+      - name: Get git commit data
+        uses: rlespinasse/git-commit-data-action@v1
+      - name: Post request to speedcurv
+        id: speedcurv
+        run: |
+          curl --request POST \
+              --url https://api.speedcurve.com/v1/deploys \
+              --header 'accept: application/json' \
+              --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
+              --header 'cache-control: no-cache' \
+              --header 'content-type: application/json' \
+              --data '{
+                "site_id" : "736533",
+                "url_id": "3887894",
+                "note" : "pr no ${{ github.event.inputs.pr_num }}",
+                "detail" : "Testing 10 details"}'
+      - name: Use response
+        run: echo ${{ steps.speedcurv.outputs.response }}
         
 
