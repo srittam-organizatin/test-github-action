@@ -66,5 +66,5 @@ jobs:
             --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
             --header 'cache-control: no-cache' \
             --header 'content-type: application/x-www-form-urlencoded' \
-            --data 'site_id=736533&url_id=3887894&note=${{ env.GIT_COMMIT_SHORT_SHA }}'
+            --data 'site_id=736533&url_id=3887894&note="${{ env.GIT_COMMIT_SHORT_SHA }}"'
 
