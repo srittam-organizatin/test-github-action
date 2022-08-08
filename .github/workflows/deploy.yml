@@ -63,17 +63,24 @@ jobs:
 
     - name: Post request to speedcurv
       run: |
-        curl --request POST \
+        CODE = `curl --request POST \
             --url https://api.speedcurve.com/v1/deploys \
             --header 'accept: application/json' \
             --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
             --header 'cache-control: no-cache' \
             --header 'content-type: application/json' \
             --data '{
-              "site_id" : "745662",
-              "url_id": "3916716",
+              "site_id" : "736533",
+              "url_id": "3887894",
               "note" : "pr no ${{ github.event.inputs.pr_num }}",
-              "detail" : "Testing 10 details"}'
+              "detail" : "Testing 10 details"}'`
+
+      if [ $CODE!="200" ] 
+      then
+            echo "FAILURE"
+      else
+            echo "SUCCESS"
+      fi
 
         
 
