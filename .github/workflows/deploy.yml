@@ -57,14 +57,17 @@ jobs:
     steps:
     - name: Get git commit data
       uses: rlespinasse/git-commit-data-action@v1
+    
+    - name: read workspace id
+      run: echo ${{ env.GIT_COMMIT_SHORT_SHA }}
 
-    - name: Post request to speedcurv
-      run: |
-        curl --request POST \
-            --url https://api.speedcurve.com/v1/deploys \
-            --header 'accept: application/json' \
-            --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
-            --header 'cache-control: no-cache' \
-            --header 'content-type: application/x-www-form-urlencoded' \
-            --data 'site_id=736533&url_id=3887894&note="${{ env.GIT_COMMIT_SHORT_SHA }}"'
+    # - name: Post request to speedcurv
+    #   run: |
+    #     curl --request POST \
+    #         --url https://api.speedcurve.com/v1/deploys \
+    #         --header 'accept: application/json' \
+    #         --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
+    #         --header 'cache-control: no-cache' \
+    #         --header 'content-type: application/x-www-form-urlencoded' \
+    #         --data 'site_id=736533&url_id=3887894&note=${{ env.GIT_COMMIT_SHORT_SHA }}'
 
