@@ -72,6 +72,6 @@ jobs:
                 "note" : "pr no ${{ github.event.inputs.pr_num }}",
                 "detail" : "Testing 10 details"}'
       - name: Use response
-        run: echo ${{ steps.speedcurv.outputs.response }}
+        run: echo ${{ steps.speedcurv.outputs.status }}
         
 
