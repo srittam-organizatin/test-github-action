@@ -52,6 +52,7 @@ jobs:
 
   speedcurv-alert:
     needs: deploy
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
     - name: Get git commit data
@@ -62,8 +63,8 @@ jobs:
         curl --request POST \
             --url https://api.speedcurve.com/v1/deploys \
             --header 'accept: application/json' \
-            --header 'authorization: Basic MW9uYzlzbTFlanJ3bzl4aHE0ODV2OTJjd2c0b2FuOng=' \
+            --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
             --header 'cache-control: no-cache' \
             --header 'content-type: application/json' \
-            --data '{"site_id" : "745662","url_id": "3916716","note" : ${{ env.GIT_COMMIT_SHORT_SHA }},"detail" : "Testing 10 details"}'
+            --data '{"site_id" : "736533","url_id": "3887894","note" : ${{ env.GIT_COMMIT_SHORT_SHA }},"detail" : "Testing 10 details"}'
 
