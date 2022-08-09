@@ -51,7 +51,7 @@ jobs:
   #         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
   speedcurv-alert:
-    needs: deploy
+    # needs: deploy
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
