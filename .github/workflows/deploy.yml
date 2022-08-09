@@ -58,8 +58,9 @@ jobs:
       - id: commit
         uses: pr-mpt/actions-commit-hash@v1 
       - name: Post request to speedcurv
+        id: speedcurv
         run: |
-          curl --request POST \
+          fullResponse=$(curl --request POST \
               --url https://api.speedcurve.com/v1/deploys \
               --header 'accept: application/json' \
               --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
@@ -69,7 +70,19 @@ jobs:
                 "site_id" : "736533",
                 "url_id": "3887894",
                 "note" : "commit ${{ steps.commit.outputs.short }}",
-                "detail" : "Testing 10 details"}'
+                "detail" : "Testing 10 details"}')
+          echo "$fullResponse"
+          status=$($fullResponse | jq '.status') 
+          message=$($fullResponse | jq '.message') 
+          if [ $status=="error" ] 
+          then
+            echo 'Exiting..'
+            echo "$message"
+            exit -1
+          else
+            echo 'ran good'
+          fi
+        
     
         
 
