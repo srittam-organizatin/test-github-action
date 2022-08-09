@@ -71,13 +71,13 @@ jobs:
                 "url_id": "3887894",
                 "note" : "commit ${{ steps.commit.outputs.short }}",
                 "detail" : "Testing 10 details"}')
-          echo $fullStatus
+          echo "$fullStatus"
           status=$($fullStatus | jq '.status') 
           message=$($fullStatus | jq '.message') 
           if [ $status=="error" ] 
           then
             echo 'Exiting..'
-            echo $message
+            echo "$message"
             exit -1
           else
             echo 'ran good'
