@@ -52,13 +52,14 @@ jobs:
 
   speedcurv-alert:
     # needs: deploy
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      - uses: pr-mpt/actions-commit-hash@v1 
       - name: Print git commit data
         run: |
             echo "Get commit info"
-            echo " - ${{ github.event.inputs.pr_head_sha }}"
+            echo " - ${{ github.sha }}"
       # - name: Post request to speedcurv
       #   id: speedcurv
       #   run: |
