@@ -2,64 +2,65 @@ name: deploy website
 on: [push, pull_request]
 jobs:
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - name: Install
-        run: npm install
-      - name: Build
-        run: npm run build
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '16'
+  #     - name: Install
+  #       run: npm install
+  #     - name: Build
+  #       run: npm run build
 
-  deploy:
-    needs: build
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    permissions: 
-      deployments: write
-    steps:
-      - name: start deployment
-        uses: bobheadxi/deployments@v0.4.3
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: ${{ fromJSON('["Production", "Preview"]')[github.ref != 'refs/heads/main'] }} 
+  # deploy:
+  #   needs: build
+  #   if: github.event_name == 'push'
+  #   runs-on: ubuntu-latest
+  #   permissions: 
+  #     deployments: write
+  #   steps:
+  #     - name: start deployment
+  #       uses: bobheadxi/deployments@v0.4.3
+  #       id: deployment
+  #       with:
+  #         step: start
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         env: ${{ fromJSON('["Production", "Preview"]')[github.ref != 'refs/heads/main'] }} 
 
-      - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v2
 
-      - uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: ${{ fromJSON('["--prod", ""]')[github.ref != 'refs/heads/main'] }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} 
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} 
-          scope: ${{ secrets.VERCEL_ORG_ID}}
-          working-directory: ./
+  #     - uses: amondnet/vercel-action@v20
+  #       with:
+  #         vercel-token: ${{ secrets.VERCEL_TOKEN }}
+  #         vercel-args: ${{ fromJSON('["--prod", ""]')[github.ref != 'refs/heads/main'] }}
+  #         vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} 
+  #         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} 
+  #         scope: ${{ secrets.VERCEL_ORG_ID}}
+  #         working-directory: ./
 
-      - name: update deployment status
-        uses: bobheadxi/deployments@v0.4.3
-        if: always()
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+  #     - name: update deployment status
+  #       uses: bobheadxi/deployments@v0.4.3
+  #       if: always()
+  #       with:
+  #         step: finish
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         status: ${{ job.status }}
+  #         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
   speedcurv-alert:
-    needs: deploy
-    if: github.ref == 'refs/heads/main'
+    # needs: deploy
+    # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - id: commit
         uses: pr-mpt/actions-commit-hash@v1 
       - name: Post request to speedcurv
+        id: speedcurv
         run: |
-          curl --request POST \
+          srittam=$(curl --request POST \
               --url https://api.speedcurve.com/v1/deploys \
               --header 'accept: application/json' \
               --header 'authorization: Basic ZWkzdWxzcGEzMWF0bTA1bHd6b3Y3MjNkeDhzYm04OmFiYzEyMw==' \
@@ -69,7 +70,15 @@ jobs:
                 "site_id" : "736533",
                 "url_id": "3887894",
                 "note" : "commit ${{ steps.commit.outputs.short }}",
-                "detail" : "Testing 10 details"}'
+                "detail" : "Testing 10 details"}' \
+                | jq '.status')
+          if [ $srittam=="error" ] 
+          then
+            exit -1
+          else
+            echo 'ran good'
+          fi
+        
     
         
 
