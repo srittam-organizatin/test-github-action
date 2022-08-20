@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev && echo 'srittam testing'",
     "build": "next build",
-    "start": "next start",
+    "start": "next start && echo 'srittam testing1'",
     "lint": "next lint"
   },
   "dependencies": {
