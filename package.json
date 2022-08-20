@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev && echo 'srittam testing'",
-    "build": "next build",
+    "build": "next build && echo 'srittam testing2'",
     "start": "next start && echo 'srittam testing1'",
     "lint": "next lint"
   },
