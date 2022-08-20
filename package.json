@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev && echo 'srittam testing'",
-    "build": "next build && echo 'srittam testing2'",
-    "start": "next start && echo 'srittam testing1'",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
